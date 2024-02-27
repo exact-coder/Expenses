@@ -63,5 +63,6 @@ Briefly describe your Django project and its purpose. Mention any key features, 
 
 Describe how to run the development server, how to access the application, and any other relevant information about using your Django project.
 
-```bash
-python manage.py runserver
+    ```bash
+    python manage.py runserver
+    ```
