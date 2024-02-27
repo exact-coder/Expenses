@@ -6,7 +6,7 @@ Briefly describe your Django project and its purpose. Mention any key features, 
 
 ## Table of Contents
 
-- [Installation](#clone the project)
+- [Installation](#cloneTheProject)
 - [Usage](#Django)
 - [Configuration](#configuration)
 - [Contributing](#contributing)
