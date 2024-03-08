@@ -76,3 +76,14 @@
 .bd-mode-toggle .dropdown-menu .active .bi {
   display: block !important;
 }
+
+.showPasswordToggle{
+  background-color: #13b4e9;
+  padding: 1px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all ease;
+}
+.showPasswordToggle:hover{
+  transform: scale(1.1);
+}
