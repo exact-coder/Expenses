@@ -90,6 +90,7 @@
 ul.messages{
   text-align: center;
   padding: 5px;
+  color: gainsboro;
   list-style-type: none;
   font-weight: bold;
 }

@@ -7,7 +7,7 @@ from validate_email import validate_email
 from django.contrib import messages
 
 # Create your views here.
-
+# JavaScript username validition check 
 class UsernameValidationView(View):
     def post(self,request):
         data = json.loads(request.body)
@@ -18,6 +18,7 @@ class UsernameValidationView(View):
             return JsonResponse({'username_error':'sorry, username already taken, choose another one.'},status=409)
         return JsonResponse({'username_valid':True})
 
+# JavaScript email validition check 
 class EmailValidationView(View):
     def post(self,request):
         data = json.loads(request.body)
@@ -35,8 +36,22 @@ class RegistrationView(View):
         return render(request, 'authentication/register.html')
     
     def post(self,request):
-        messages.success(request, "Successfully Reg🎉🎉")
-        messages.info(request, "Successfully Reg🎉🎉")
-        messages.warning(request, "Successfully Reg🎉🎉")
-        messages.error(request, "Successfully Reg  ddfdd🎉🎉")
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        context = {
+            'fieldValues':request.POST
+        }
+        if not User.objects.filter(username=username).exists():
+            if not User.objects.filter(email=email).exists():
+                if len(password) < 4:
+                    messages.error(request, "Password too short")
+                    return render(request, 'authentication/register.html',context)
+                user = User.objects.create_user(username=username,email=email)
+                user.set_password(password)
+                user.save()
+                messages.success(request, "User Created Successfully")
+                return render(request, 'authentication/register.html')
+        
         return render(request, 'authentication/register.html')
