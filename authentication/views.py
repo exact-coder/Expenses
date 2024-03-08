@@ -5,6 +5,7 @@ import json
 from django.http import JsonResponse
 from validate_email import validate_email
 from django.contrib import messages
+from django.core.mail import EmailMessage
 
 # Create your views here.
 # JavaScript username validition check 
@@ -50,7 +51,17 @@ class RegistrationView(View):
                     return render(request, 'authentication/register.html',context)
                 user = User.objects.create_user(username=username,email=email)
                 user.set_password(password)
+                user.is_active = False
                 user.save()
+                email_subject = "Activate Your Account"
+                email_body = ""
+                email_send = EmailMessage(
+                    email_subject,
+                    email_body,
+                    'exactcoder0@gmail.com',
+                    [email]
+                )
+                email_send.send(fail_silently=False)
                 messages.success(request, "User Created Successfully")
                 return render(request, 'authentication/register.html')
         

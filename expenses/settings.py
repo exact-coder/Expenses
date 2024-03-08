@@ -1,9 +1,18 @@
 from pathlib import Path
 import os
 from django.contrib import messages
+
+from os import getenv,path
+from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+
+dotenv_file = BASE_DIR / '.env'
+
+if path.isfile(dotenv_file):
+    load_dotenv(dotenv_file)
 
 SECRET_KEY = 'django-insecure-3%qlj*x48p9soig8m-g@uq*44@ynwkbv8w6g7(y4b$4*8112c*'
 
@@ -72,11 +81,11 @@ WSGI_APPLICATION = 'expenses.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv("DB_NAME", "incomeexpensesdb"),
-        "USER": os.getenv("DB_USER", "postgres"),
-        "PASSWORD": os.getenv("DB_USER_PASSWORD", "12345"),
-        "HOST": os.getenv("DB_HOST", "localhost"),
-        "PORT": os.getenv("DB_PORT", "5432")
+        'NAME': os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_USER_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT")
     }
 }
 
@@ -129,3 +138,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MESSAGE_TAGS={
     messages.ERROR: 'danger'
 }
+
+# Send Email Stuff
+EMAIL_BACKEND ="django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST ='smtp.gmail.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL= os.getenv('EMAIL_HOST_USER')
+EMAIL_USE_TLS = True
