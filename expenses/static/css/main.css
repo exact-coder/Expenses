@@ -87,3 +87,9 @@
 .showPasswordToggle:hover{
   transform: scale(1.1);
 }
+ul.messages{
+  text-align: center;
+  padding: 5px;
+  list-style-type: none;
+  font-weight: bold;
+}

@@ -12,7 +12,9 @@
                     <img height="70px" width="100px" src="{% static "img/logo.png" %}" alt="">
                 </div>
 
-                <form action="" method="post">
+                <form action="{% url "register" %}" method="post">
+                    {% csrf_token %}
+                    {% include "partials/_messages.html" %}
                     <div class="form-group m-4">
                         <input type="text" name="username" id="usernameField" class="form-control form-control-sm p-2" placeholder="Username">
                     </div>
