@@ -6,11 +6,11 @@ from django.http import JsonResponse
 from validate_email import validate_email
 from django.contrib import messages
 from django.core.mail import EmailMessage
-from django.utils.encoding import force_bytes,DjangoUnicodeDecodeError
+from django.utils.encoding import force_bytes,DjangoUnicodeDecodeError,force_str
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from authentication.utils import token_generator
+from authentication.utils import account_activation_token
 
 # Create your views here.
 # JavaScript username validition check 
@@ -63,7 +63,7 @@ class RegistrationView(View):
                 uidb64= urlsafe_base64_encode(force_bytes(user.pk))
 
                 domain = get_current_site(request).domain
-                link=reverse('activate',kwargs={'uidb64':uidb64,'token':token_generator.make_token(user)})
+                link=reverse('activate',kwargs={'uidb64':uidb64,'token':account_activation_token.make_token(user)})
                 activate_url='http://'+domain+link
 
                 email_subject = "Activate Your Account"
@@ -82,6 +82,22 @@ class RegistrationView(View):
 
 class VerificationView(View):
     def get(self,request,uidb64,token):
+
+        try:
+            id= force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=id)
+            
+            if not account_activation_token.check_token(user,token):
+                return redirect('login'+'?message'+'User already activated')
+
+            if user.is_active:
+                return redirect('login')
+            user.is_active=True
+            user.save()
+            messages.success(request, 'Account activated successfully')
+            return redirect('login')
+        except Exception as e:
+            pass
         return redirect('login')
 
 
