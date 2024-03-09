@@ -1,11 +1,8 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %} Home {% endblock title %} 
+{% block content %} 
+{% include "partials/_messages.html" %}
 
-{% block title %} Home {% endblock title %}
-
-{% block content %}
-
-    <h1>This is the Home Page</h1>
-{% endblock content %}
-
-{% comment %} no-15 {% endcomment %}
+<h1>This is the Home Page</h1>
+{% endblock content %} {% comment %} no-16 {% endcomment %}

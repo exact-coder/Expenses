@@ -87,12 +87,21 @@
                     Settings
                   </a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  <a class="nav-link d-flex align-items-center gap-2" href="{% url "logout" %}">
                     <svg class="bi"><use xlink:href="#door-closed" /></svg>
-                    Sign out
+                    Sign Out
                   </a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link d-flex align-items-center gap-2" href="{% url "login" %}">
+                    <svg class="bi"><use xlink:href="#door-closed" /></svg>
+                    Log In
+                  </a>
+                </li>
+                {% endif %}
               </ul>
             </div>
           </div>
