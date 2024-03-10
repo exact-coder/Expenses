@@ -3,16 +3,25 @@
 
 {% block content %}
     <div class="container mt-3">
+        {% include "partials/_messages.html" %}
         <h4 class="text-center text-info">Preferred Currency</h4><hr>
-        <div class="input-group">
-            <select class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon ">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-            </select>
-            <button class="btn btn-outline-info" type="button">Button</button>
-        </div>
+        <form action="{% url "preferences" %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <select name="currency" class="form-select" id="inputGroupSelect04" aria-label="Example select with button addon ">
+                {% if user_preferences.currency %}
+                    <option name="currency" value={{user_preferences.currency}} selected >{{user_preferences.currency}}</option>
+                {% else %}
+                <option selected>Choose...</option>
+                {% endif %}
+                {% for currency in currencies %}
+                <option name="currency" value="{{currency.name}}-{{currency.value}}">{{currency.name}}-{{currency.value}}</option>
+                
+                {% endfor %}
+                </select>
+                <input class="btn btn-outline-info" type="submit" value="Save" />
+            </div>
+        </form>
     </div>
 
 {% endblock content %}
