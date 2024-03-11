@@ -11,4 +11,36 @@
   </ol>
 </nav>
 
+<div class="card">
+  <div class="card-body">
+      <form action="{% url "expences" %}" method="post">
+      <div class="form-group">
+        <label for="amount" class="fw-bold">Amount:</label>
+        <input type="number" class="form-control form-control-sm m-2 " name='amount'>
+      </div>
+      <div class="form-group">
+        <label for="description" class="fw-bold">Description:</label>
+        <input type="text" class="form-control form-control-sm m-2 " name='description'>
+      </div>
+      <div class="form-group">
+        <label for="category"class="fw-bold" >Category:</label>
+        <select class="form-control form-control-sm m-2 " name='category'>
+          {% if categories %}
+          {% for category in categories %}
+            <option class="fw-bold text-uppercase" value="{{category}}" name="category">{{category}}</option>
+          {% endfor %}
+          {% else %}
+            <option class="fw-bold" value="" name="category">No Categories</option>
+          {% endif %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="expense_date" class="fw-bold">Date of Expense:</label>
+        <input type="date" class="form-control form-control-sm m-2 " name='expense_date'>
+      </div>
+      <input type="submit" value="Submit" class="btn btn-primary m-2 ">
+    </form>
+  </div>
+</div>
+
 {% endblock content %}
