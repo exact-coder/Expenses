@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from home.models import Category,Expense
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -9,9 +10,12 @@ from django.contrib import messages
 def index(request):
     categories = Category.objects.all()
     expense = Expense.objects.filter(owner=request.user)
-    
+    paginator = Paginator(expense,3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context ={
-        'expenses':expense
+        'expenses':expense,
+        'page_obj': page_obj,
     }
     return render(request,"index.html",context)
 
