@@ -18,7 +18,41 @@
           </div>
     </div>
 
+    <div class="container">
+      {% if expenses %}
+      <div class="table-responsive mt-4">
+      <table class="table table-light table-stripped table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Amount (currency)</th>
+            <th scope="col">Category</th>
+            <th scope="col">Description</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          {% for expense in expenses %}
+            <tr>
+              <td>{{expense.amount}}</td>
+              <td>{{expense.category}}</td>
+              <td>{{expense.description|safe}}</td>
+              <td>{{expense.date}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+      {% else %}
+        <tr>
+          <h4 class="text-center mt-4" style="color:gray;">No Expenses</h4>
+        </tr>
+      {% endif %}
+    </div>
+
     {% include "partials/_messages.html" %}
 </div>
 
-{% endblock content %} {% comment %} no-17,len-27 {% endcomment %}
+{% endblock content %} 
+
+{% comment %} no-17,len-47 {% endcomment %}
