@@ -4,6 +4,7 @@
 {% block content %} 
 
 <div class="container">
+  {% include "partials/_messages.html" %}
     <div class="row  mt-3">
         <div class="col-md-10">
             <nav aria-label="breadcrumb">
@@ -28,6 +29,7 @@
             <th scope="col">Category</th>
             <th scope="col">Description</th>
             <th scope="col">Date</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -38,6 +40,10 @@
               <td>{{expense.category}}</td>
               <td>{{expense.description|safe}}</td>
               <td>{{expense.date}}</td>
+              <td>
+                <a class="btn btn-primary btn-sm" href="{% url "expense-edit" expense.pk %} ">Edit</a>
+                <a class="btn btn-danger btn-sm" href="{% url "delete-expense" expense.pk %}">Delete</a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>
@@ -50,9 +56,8 @@
       {% endif %}
     </div>
 
-    {% include "partials/_messages.html" %}
 </div>
 
 {% endblock content %} 
 
-{% comment %} no-17,len-47 {% endcomment %}
+{% comment %} no-18 {% endcomment %}
