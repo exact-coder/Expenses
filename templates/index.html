@@ -5,6 +5,17 @@
 
 <div class="container">
   {% include "partials/_messages.html" %}
+
+  <div class="row">
+    <div class="col-md-8"></div>
+
+    <div class="col-md-4 mt-3">
+      <div class="form-group">
+        <input type="text" id="searchField" class="form-control" placeholder="Search">
+      </div>
+    </div>
+
+  </div>
     <div class="row  mt-3">
         <div class="col-md-10">
             <nav aria-label="breadcrumb">
@@ -22,50 +33,71 @@
     <div class="container">
       {% if expenses %}
       <div class="table-responsive mt-4">
-      <table class="table table-light table-stripped table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Amount (currency)</th>
-            <th scope="col">Category</th>
-            <th scope="col">Description</th>
-            <th scope="col">Date</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          {% for expense in page_obj %}
+      <div class="app-table">
+        <table class="table table-light table-stripped table-hover">
+          <thead>
             <tr>
-              <td>{{expense.amount}}</td>
-              <td>{{expense.category}}</td>
-              <td>{{expense.description|safe}}</td>
-              <td>{{expense.date}}</td>
-              <td>
-                <a class="btn btn-outline-secondary btn-sm" href="{% url "expense-edit" expense.pk %} ">Edit</a>
-                <a class="btn btn-outline-danger btn-sm fw-bolder" href="{% url "delete-expense" expense.pk %}">X</a>
-              </td>
+              <th scope="col">Amount (currency)</th>
+              <th scope="col">Category</th>
+              <th scope="col">Description</th>
+              <th scope="col">Date</th>
+              <th scope="col">Action</th>
             </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-      <div class="mt-4">
-        Showing page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+          </thead>
+          <tbody>
+            
+            {% for expense in page_obj %}
+              <tr>
+                <td>{{expense.amount}}</td>
+                <td>{{expense.category}}</td>
+                <td>{{expense.description|safe}}</td>
+                <td>{{expense.date}}</td>
+                <td>
+                  <a class="btn btn-outline-secondary btn-sm" href="{% url "expense-edit" expense.pk %} ">Edit</a>
+                  <a class="btn btn-outline-danger btn-sm fw-bolder" href="{% url "delete-expense" expense.pk %}">X</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
 
-      <ul class="pagination text-sm-end float-end mr-auto">
+      <div class="table-output">
+        <table class="table table-light table-stripped table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Amount (currency)</th>
+              <th scope="col">Category</th>
+              <th scope="col">Description</th>
+              <th scope="col">Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody class="table-body">
+            
+          </tbody>
+        </table>
+      </div>
 
-        {% if page_obj.has_previous %}
-          <li {% if page_obj.number == 1 %}class="page-item active" {% endif %} > <a href="?page=1" class="page-link">&laquo; 1</a></li>
-          <li class="page-item"><a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a></li>
-        {% endif %}
+      <div class="pagination-container">
+        <div class="mt-4">
+          Showing page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+        </div>
 
-        {% if page_obj.has_next %}
-          <li class="page-item"> <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
-          <li class="page-item"> <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">{{page_obj.paginator.num_pages}} &raquo; </a></li>
-        {% endif %}
+        <ul class="pagination text-sm-end float-end mr-auto">
 
-      </ul>
+          {% if page_obj.has_previous %}
+            <li {% if page_obj.number == 1 %}class="page-item active" {% endif %} > <a href="?page=1" class="page-link">&laquo; 1</a></li>
+            <li class="page-item"><a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a></li>
+          {% endif %}
+
+          {% if page_obj.has_next %}
+            <li class="page-item"> <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next</a></li>
+            <li class="page-item"> <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">{{page_obj.paginator.num_pages}} &raquo; </a></li>
+          {% endif %}
+
+        </ul>
+    </div>
     </div>
       {% else %}
         <tr>
@@ -76,6 +108,8 @@
 
 </div>
 
+<script src="{% static "js/searchExpenses.js" %}"></script>
+
 {% endblock content %} 
 
-{% comment %} no-18 {% endcomment %}
+{% comment %} no-20 {% endcomment %}

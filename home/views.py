@@ -3,14 +3,27 @@ from django.contrib.auth.decorators import login_required
 from home.models import Category,Expense
 from django.contrib import messages
 from django.core.paginator import Paginator
+import json
+from django.http import JsonResponse
+
 
 # Create your views here.
+
+def search_expenses(request):
+    if request.method == 'POST':
+        search_str = json.loads(request.body).get('searchText')
+
+        expenses = Expense.objects.filter(amount__startswith=search_str,owner=request.user) | Expense.objects.filter(date__startswith=search_str,owner=request.user) | Expense.objects.filter(category__icontains=search_str,owner=request.user) | Expense.objects.filter(description__icontains=search_str,owner=request.user)
+        data = expenses.values()
+        return JsonResponse(list(data),safe=False)
+
+
 
 @login_required(login_url="login")
 def index(request):
     categories = Category.objects.all()
     expense = Expense.objects.filter(owner=request.user)
-    paginator = Paginator(expense,3)
+    paginator = Paginator(expense,8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context ={
