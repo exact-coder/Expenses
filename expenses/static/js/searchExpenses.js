@@ -18,11 +18,11 @@ searchField.addEventListener('keyup', (e) => {
             method: "POST",
         }).then((res) => res.json())
         .then((data) => {
-            console.log(data);
             appTable.style.display="none";
             tableOutput.style.display="block";
             if (data.length === 0) {
-                tableOutput.innerHTML="No Result Found"
+                tableOutput.innerHTML="No Result Found";
+                tableOutput.style.display="none";
             }else{
 
                 data.forEach(item => {
@@ -36,9 +36,7 @@ searchField.addEventListener('keyup', (e) => {
                             <a class="btn btn-outline-secondary btn-sm" href="expense-edit/${item.id}">Edit</a>
                             <a class="btn btn-outline-danger btn-sm fw-bolder" href="delete-expense/${item.id}">X</a>
                             </td>
-                    </tr>
-                
-                    `;
+                    </tr>`;
                 });
                 
             }
