@@ -20,7 +20,7 @@
         <div class="col-md-10">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="#">Income</a></li>
+                  <li class="breadcrumb-item"><a href="{% url "income" %}">Income</a></li>
                   <li class="breadcrumb-item active" aria-current="page">My Income</li>
                 </ol>
             </nav>
@@ -30,7 +30,7 @@
           </div>
     </div>
 
-    {% comment %} <div class="container">
+    <div class="container">
       {% if income %}
       <div class="table-responsive mt-4">
       <div class="app-table">
@@ -46,15 +46,15 @@
           </thead>
           <tbody>
             
-            {% for expense in page_obj %}
+            {% for income in page_obj %}
               <tr>
-                <td>{{expense.amount}}</td>
-                <td>{{expense.category}}</td>
-                <td>{{expense.description|safe}}</td>
-                <td>{{expense.date}}</td>
+                <td>{{income.amount}}</td>
+                <td>{{income.source}}</td>
+                <td>{{income.description|safe}}</td>
+                <td>{{income.date}}</td>
                 <td>
-                  <a class="btn btn-outline-secondary btn-sm" href="{% url "expense-edit" expense.pk %} ">Edit</a>
-                  <a class="btn btn-outline-danger btn-sm fw-bolder" href="{% url "delete-expense" expense.pk %}">X</a>
+                  <a class="btn btn-outline-secondary btn-sm" href="{% url "income-edit" income.pk %} ">Edit</a>
+                  <a class="btn btn-outline-danger btn-sm fw-bolder" href="{% url "delete-income" income.pk %}">X</a>
                 </td>
               </tr>
             {% endfor %}
@@ -101,10 +101,10 @@
     </div>
       {% else %}
         <tr>
-          <h4 class="text-center mt-4" style="color:gray;">No Expenses</h4>
+          <h4 class="text-center mt-4" style="color:gray;">No Incomes</h4>
         </tr>
       {% endif %}
-    </div> {% endcomment %}
+    </div>
 
 </div>
 

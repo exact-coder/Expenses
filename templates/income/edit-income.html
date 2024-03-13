@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Add_income {% endblock title %}
+
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mt-4">
+    <li class="breadcrumb-item"><a href="{% url "income" %}">Incomes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edit income</li>
+  </ol>
+</nav>
+
+<div class="card">
+  <div class="card-body">
+      <form action="{% url "income-edit" income.id %}" method="post">
+        {% csrf_token %}
+        {% include "partials/_messages.html" %}
+      <div class="form-group">
+        <label for="amount" class="fw-bold">Amount* :</label>
+        <input type="number" class="form-control form-control-sm m-2" name='amount' value="{{values.amount}}" >
+      </div>
+      <div class="form-group">
+        <label for="description" class="fw-bold">Description* :</label>
+        <input type="text" class="form-control form-control-sm m-2" name='description' value="{{values.description}}">
+      </div>
+      <div class="form-group">
+        <label for="source"class="fw-bold" >Source:</label>
+        <select class="form-control form-control-sm m-2 " name='source'>
+          {% if sources %}
+            <option class="fw-bold text-uppercase" value="{{values.source}}" name="source">{{values.source}}</option>
+          {% for source in sources %}
+            <option class="fw-bold text-uppercase" value="{{source}}" name="source">{{source}}</option>
+          {% endfor %}
+          {% else %}
+            <option class="fw-bold" value="" name="source">No Sources</option>
+          {% endif %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="income_date" class="fw-bold">Date of income:</label>
+        <input type="date" class="form-control form-control-sm m-2" value={{values.date | date:'Y-m-d'}} name='income_date'>
+      </div>
+      <input type="submit" value="Update" class="btn btn-primary m-2 ">
+    </form>
+  </div>
+</div>
+
+{% endblock content %}

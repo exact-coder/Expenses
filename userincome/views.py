@@ -6,7 +6,18 @@ from django.core.paginator import Paginator
 import json
 from django.http import JsonResponse
 from userpreferences.models import UserPreference
+
 # Create your views here.
+
+
+def search_incomes(request):
+    if request.method == 'POST':
+        search_str = json.loads(request.body).get('searchText')
+
+        incomes = UserIncome.objects.filter(amount__startswith=search_str,owner=request.user) | UserIncome.objects.filter(date__startswith=search_str,owner=request.user) | UserIncome.objects.filter(source__icontains=search_str,owner=request.user) | UserIncome.objects.filter(description__icontains=search_str,owner=request.user)
+        data = incomes.values()
+        return JsonResponse(list(data),safe=False)
+
 
 
 @login_required(login_url="login")
@@ -52,42 +63,42 @@ def add_income(request):
         return redirect('income')
     return render(request,"income/add_income.html",context)
 
-# def expense_edit(request,id):
-#     expense = UserIncome.objects.get(pk=id,owner=request.user)
-#     categories = Source.objects.all()
-#     context = {
-#         'expense':expense,
-#         'values': expense,
-#         'categories':categories,
-#     }
-#     if request.method == 'POST':
-#         amount = request.POST['amount']
-#         description = request.POST['description']
-#         category = request.POST['category']
-#         date = request.POST['expense_date']
+def income_edit(request,id):
+    income = UserIncome.objects.get(pk=id,owner=request.user)
+    sources = Source.objects.all()
+    context = {
+        'income':income,
+        'values': income,
+        'sources':sources,
+    }
+    if request.method == 'POST':
+        amount = request.POST['amount']
+        description = request.POST['description']
+        source = request.POST['source']
+        date = request.POST['income_date']
 
-#         if not amount:
-#             messages.error(request, 'Amount is Required')
-#             return render(request,"expenses/edit-expense.html",context)
-#         if not description:
-#             messages.error(request, 'Description is Required')
-#             return render(request,"expenses/edit-expense.html",context)
-#         if not date:
-#             messages.error(request, 'Please select expense date')
-#             return render(request,"expenses/edit-expense.html",context)
+        if not amount:
+            messages.error(request, 'Amount is Required')
+            return render(request,"income/edit-income.html",context)
+        if not description:
+            messages.error(request, 'Description is Required')
+            return render(request,"income/edit-income.html",context)
+        if not date:
+            messages.error(request, 'Please select income date')
+            return render(request,"income/edit-income.html",context)
         
-#         expense.owner=request.user
-#         expense.amount=amount
-#         expense.description=description
-#         expense.category=category
-#         expense.date=date
-#         expense.save()
-#         messages.success(request, 'Expense Update Successfully')
-#         return redirect('expences')
-#     return render(request, 'expenses/edit-expense.html',context)
+        income.owner=request.user
+        income.amount=amount
+        income.description=description
+        income.source=source
+        income.date=date
+        income.save()
+        messages.success(request, 'Income Update Successfully')
+        return redirect('income')
+    return render(request, 'income/edit-income.html',context)
 
-# def delete_expense(request,id):
-#     expense = UserIncome.objects.get(pk=id,owner=request.user)
-#     expense.delete()
-#     messages.success(request, 'Expense Removed')
-#     return redirect('expences')
+def delete_income(request,id):
+    income = UserIncome.objects.get(pk=id,owner=request.user)
+    income.delete()
+    messages.success(request, 'Income Removed')
+    return redirect('income')
