@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %} Add_expense {% endblock title %}
+{% block title %} Add_Income {% endblock title %}
 
 
 {% block content %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb mt-4">
-    <li class="breadcrumb-item"><a href="{% url "expences" %}">Expenses</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Add Expenses</li>
+    <li class="breadcrumb-item"><a href="{% url "income" %}">Income</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add Income</li>
   </ol>
 </nav>
 
 <div class="card">
   <div class="card-body">
-      <form action="{% url "add-expense" %}" method="post">
+      <form action="{% url "add-income" %}" method="post">
         {% csrf_token %}
         {% include "partials/_messages.html" %}
       <div class="form-group">
@@ -25,22 +25,22 @@
         <input type="text" class="form-control form-control-sm m-2" name='description' value="{{values.description}}">
       </div>
       <div class="form-group">
-        <label for="category"class="fw-bold" >Category:</label>
-        <select class="form-control form-control-sm m-2 " name='category'>
-          {% if categories %}
-          {% for category in categories %}
-            <option class="fw-bold text-uppercase" value="{{category}}" name="category">{{category}}</option>
+        <label for="source" class="fw-bold" >Source:</label>
+        <select class="form-control form-control-sm m-2 " name='source'>
+          {% if sources %}
+          {% for source in sources %}
+            <option class="fw-bold text-uppercase" value="{{source}}" name="source">{{source}}</option>
           {% endfor %}
           {% else %}
-            <option class="fw-bold" value="" name="category">No Categories</option>
+            <option class="fw-bold text-uppercase" value="" name="source">No Sources</option>
           {% endif %}
         </select>
       </div>
       <div class="form-group">
-        <label for="expense_date" class="fw-bold">Date of Expense:</label>
-        <input type="date" class="form-control form-control-sm m-2" name='expense_date'>
+        <label for="income_date" class="fw-bold">Date of Income:</label>
+        <input type="date" class="form-control form-control-sm m-2" name='income_date'>
       </div>
-      <input type="submit" value="Submit" class="btn btn-primary m-2 ">
+      <input type="submit" value="Save" class="btn btn-primary m-2 ">
     </form>
   </div>
 </div>
