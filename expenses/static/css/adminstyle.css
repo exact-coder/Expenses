@@ -1,0 +1,66 @@
+#header {
+    background: #380898 !important;
+}
+h1{
+    color: aqua;
+}
+.module caption, .inline-group h2 {
+    background-color: #380898;
+}
+.dashboard .module table th {
+    color: aqua !important;
+}
+
+a:link, a:visited {
+    color: aqua;
+}
+div.breadcrumbs {
+    background: #2a0574;
+    color: #fff;
+}
+
+.object-tools a.addlink {
+    background-color: #380898;
+}
+
+#nav-sidebar .module th{
+    background-color: #120232;
+}
+#nav-sidebar .module td {
+    background-color: #180e2b;
+}
+#user-tools, #logout-form button {
+    padding: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: aqua;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.login .form-row label {
+    color: aqua;
+    font-size: 15px;
+}
+.form-row input {
+    color: aqua;
+}
+#login-form .submit-row input {
+    padding: 0.7rem;
+    width: 100%;
+    color: #fff;
+    font-weight: 700;
+    background: #380898;
+}
+.submit-row input {
+    color: #fff;
+    background: #380898;
+}
+.submit-row input:hover {
+    background: #2a0574;
+}
+.submit-row input.default {
+    background: #380898;
+}
+.submit-row input.default:hover {
+    background: #2a0574;
+}

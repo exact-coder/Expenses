@@ -93,12 +93,14 @@ def income_edit(request,id):
         income.source=source
         income.date=date
         income.save()
-        messages.success(request, 'Income Update Successfully')
+        messages.success(request, 'Record Update Successfully')
         return redirect('income')
     return render(request, 'income/edit-income.html',context)
 
 def delete_income(request,id):
     income = UserIncome.objects.get(pk=id,owner=request.user)
     income.delete()
-    messages.success(request, 'Income Removed')
+    messages.success(request, 'Record Removed')
     return redirect('income')
+
+
