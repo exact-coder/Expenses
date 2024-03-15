@@ -171,9 +171,48 @@ class RequestPasswordResetEmail(View):
 
 class CompletePasswordReset(View):
     def get(self,request,uidb64,token):
-        return render(request, 'authentication/set-new-password.html')
+        context = {
+            'uidb64': uidb64,
+            'token': token,
+        }
+        try:
+            user_id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=user_id)
+            
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                messages.info(request, "Password link is Invalid, Request for new one")
+                return redirect('request-password')
+        except Exception as e:
+            pass
+            return render(request, 'authentication/set-new-password.html',context)
+        return render(request, 'authentication/set-new-password.html',context)
     
     def post(self,request,uidb64,token):
-        return render(request, 'authentication/set-new-password.html')
+        context = {
+            'uidb64': uidb64,
+            'token': token,
+        }
+        password = request.POST['password']
+        password2 = request.POST['password2']
+
+        if password != password2:
+            messages.error(request, 'Passwords donot match')
+            return render(request, 'authentication/set-new-password.html',context)
+        if len(password) < 6:
+            messages.error(request, "Password must be higher then 6 characters")
+            return render(request, 'authentication/set-new-password.html',context)
+        try:
+            user_id = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=user_id)
+            user.set_password(password)
+            user.save()
+            messages.success(request, "Password reset Successfully")
+            return redirect('login')
+        except Exception as e:
+            messages.info(request, "Something Wrong Happened!!")
+            print(e)
+            return render(request, 'authentication/set-new-password.html',context)
+
+        
     
 

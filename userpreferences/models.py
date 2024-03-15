@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class UserPreference(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
-    currency = models.CharField(_("Currency"), max_length=225,blank=True,null=True)
+    currency = models.CharField(_("Currency"), max_length=225,default="No Currency")
 
     def __str__(self) -> str:
         return f"{self.user.username}'s preferences"
