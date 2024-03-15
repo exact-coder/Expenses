@@ -12,6 +12,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from authentication.utils import account_activation_token
 from django.contrib import auth
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 # Create your views here.
 # JavaScript username validition check 
@@ -133,24 +134,46 @@ class RequestPasswordResetEmail(View):
     def post(self, request):
         email = request.POST['email']
         context ={
-            'values': request.POST
+            'values': request.POST,
         }
 
         if not validate_email(email):
             messages.error(request, 'Please supply a valid email')
             return render(request, 'authentication/reset-password.html',context)
 
-        domain = get_current_site(request).domain
-        link=reverse('activate',kwargs={'uidb64':uidb64,'token':account_activation_token.make_token(user)})
-        activate_url='http://'+domain+link
+        current_site = get_current_site(request)
+        user = User.objects.filter(email=email)
+        
 
-        email_subject = "Activate Your Account"
-        email_body = 'Hi ,' + user.username + '\n Please use this link to verify your account\n' + activate_url
-        email_send = EmailMessage(
-            email_subject,
-            email_body,
-            'exactcoder0@gmail.com',
-            [email]
-        )
-        email_send.send(fail_silently=False)
+
+        if user.exists():
+            email_contents = {
+                'user':user[0],
+                'domain': current_site.domain,
+                'uid':urlsafe_base64_encode(force_bytes(user[0].pk)),
+                'token': PasswordResetTokenGenerator().make_token(user[0]),
+            }
+            link=reverse('reset-user-password',kwargs={'uidb64':email_contents['uid'],'token':email_contents['token']})
+            email_subject = "Password Reset Instructions"
+            reset_url = 'http://'+current_site.domain+link
+
+            email_send = EmailMessage(
+                email_subject,
+                # Email Body
+                f'Hi There, Please click the link below to reset your password \n {reset_url}',
+                'exactcoder0@gmail.com',
+                [email]
+            )
+            email_send.send(fail_silently=False)
+        messages.success(request, 'We have send you an email to reset your password')
+        
         return render(request, 'authentication/reset-password.html')
+
+class CompletePasswordReset(View):
+    def get(self,request,uidb64,token):
+        return render(request, 'authentication/set-new-password.html')
+    
+    def post(self,request,uidb64,token):
+        return render(request, 'authentication/set-new-password.html')
+    
+
