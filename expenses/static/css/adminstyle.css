@@ -64,3 +64,6 @@ div.breadcrumbs {
 .submit-row input.default:hover {
     background: #2a0574;
 }
+.dashboard #content {
+    width: 1110px;
+}

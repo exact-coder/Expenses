@@ -126,4 +126,31 @@ class VerificationView(View):
             pass
         return redirect('login')
 
+class RequestPasswordResetEmail(View):
+    def get(self, request):
+        return render(request, 'authentication/reset-password.html')
+    
+    def post(self, request):
+        email = request.POST['email']
+        context ={
+            'values': request.POST
+        }
 
+        if not validate_email(email):
+            messages.error(request, 'Please supply a valid email')
+            return render(request, 'authentication/reset-password.html',context)
+
+        domain = get_current_site(request).domain
+        link=reverse('activate',kwargs={'uidb64':uidb64,'token':account_activation_token.make_token(user)})
+        activate_url='http://'+domain+link
+
+        email_subject = "Activate Your Account"
+        email_body = 'Hi ,' + user.username + '\n Please use this link to verify your account\n' + activate_url
+        email_send = EmailMessage(
+            email_subject,
+            email_body,
+            'exactcoder0@gmail.com',
+            [email]
+        )
+        email_send.send(fail_silently=False)
+        return render(request, 'authentication/reset-password.html')
