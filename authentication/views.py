@@ -13,6 +13,19 @@ from django.urls import reverse
 from authentication.utils import account_activation_token
 from django.contrib import auth
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+import threading
+
+class EmailThread(threading.Thread):
+
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+
+        self.email.send(fail_silently=False)
+        
+
 
 # Create your views here.
 # JavaScript username validition check 
@@ -95,13 +108,13 @@ class RegistrationView(View):
 
                 email_subject = "Activate Your Account"
                 email_body = 'Hi ,' + user.username + '\n Please use this link to verify your account\n' + activate_url
-                email_send = EmailMessage(
+                email = EmailMessage(
                     email_subject,
                     email_body,
                     'exactcoder0@gmail.com',
                     [email]
                 )
-                email_send.send(fail_silently=False)
+                EmailThread(email).start()
                 messages.success(request, "User Created Successfully")
                 return render(request, 'authentication/register.html')
         
@@ -157,14 +170,14 @@ class RequestPasswordResetEmail(View):
             email_subject = "Password Reset Instructions"
             reset_url = 'http://'+current_site.domain+link
 
-            email_send = EmailMessage(
+            email = EmailMessage(
                 email_subject,
                 # Email Body
                 f'Hi There, Please click the link below to reset your password \n {reset_url}',
                 'exactcoder0@gmail.com',
                 [email]
             )
-            email_send.send(fail_silently=False)
+            EmailThread(email).start()
         messages.success(request, 'We have send you an email to reset your password')
         
         return render(request, 'authentication/reset-password.html')
