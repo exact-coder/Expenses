@@ -9,6 +9,10 @@ from userpreferences.models import UserPreference
 import datetime
 import csv
 import xlwt
+from django.template.loader import render_to_string
+# from weasyprint import HTML
+# import tempfile
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -173,5 +177,22 @@ def export_excel(request):
 
 def export_pdf(request):
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename=Expenses-{datetime.datetime.now()}'+'.pdf'
-    
+    response['Content-Disposition'] = f'inline; attachment; filename=Expenses-{datetime.datetime.now()}'+'.pdf'
+    response['Content-Transfer-Encoding'] = 'binary'
+    expenses = Expense.objects.filter(owner=request.user)
+    sum = expenses.aaggregate(Sum('amount'))
+    # print(sum['amount__sum'])
+    html_string = render_to_string('expenses/pdf-output.html',{'expenses':expenses, 'total':sum})
+    # html=HTML(string=html_string)
+    # result = html.write_pdf()
+
+    # with tempfile.NamedTemporaryFile(delete=True) as output:
+    #     # output.write(result)
+    #     output.flush()
+
+    #     output = open(output.name, 'rb')
+    #     response.write(output.read())
+    return response
+
+
+
