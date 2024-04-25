@@ -12,7 +12,7 @@
 </nav>
 
 <div class="card">
-  <div class="card-body">
+  <div class="card-body" style="background-color:rgba(220, 53, 69,0.3)">
       <form action="{% url "expense-edit" expense.id %}" method="post">
         {% csrf_token %}
         {% include "partials/_messages.html" %}

@@ -21,6 +21,8 @@
                 aria-label="Close"
               ></button>
             </div>
+
+
             <div
               class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto"
             >
@@ -29,7 +31,7 @@
                   <a
                     class="nav-link d-flex align-items-center gap-2 active"
                     aria-current="page"
-                    href="#"
+                    href="{% url "stats" %}"
                   >
                     <svg class="bi"><use xlink:href="#house-fill" /></svg>
                     Dashboard
@@ -39,7 +41,13 @@
                 <li class="nav-item">
                   <a class="nav-link d-flex align-items-center gap-2" href="{% url "add-expense" %}">
                     <svg class="bi"><use xlink:href="#graph-up" /></svg>
-                    Expense Reports
+                    Add Expense
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link d-flex align-items-center gap-2" href="{% url "add-income" %}">
+                    <svg class="bi"><use xlink:href="#graph-up" /></svg>
+                    Add Income
                   </a>
                 </li>
               </ul>
@@ -62,7 +70,23 @@
                     <svg class="bi">
                       <use xlink:href="#file-earmark-text" />
                     </svg>
-                    Expenses
+                    Expense Report
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link d-flex align-items-center gap-2" href="{% url "stats" %}">
+                    <svg class="bi">
+                      <use xlink:href="#file-earmark-text" />
+                    </svg>
+                    Income Report
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link d-flex align-items-center gap-2" href="{% url "expences" %}">
+                    <svg class="bi">
+                      <use xlink:href="#file-earmark-text" />
+                    </svg>
+                    All Expense
                   </a>
                 </li>
                 <li class="nav-item">
@@ -70,7 +94,7 @@
                     <svg class="bi">
                       <use xlink:href="#file-earmark-text" />
                     </svg>
-                    Income
+                    All Income
                   </a>
                 </li>
                 

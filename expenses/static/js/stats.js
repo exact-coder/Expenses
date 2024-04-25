@@ -4,7 +4,7 @@ const renderChat=(data,labels) =>{
     const ctx = document.getElementById('myChart');
       
     new Chart(ctx, {
-      type: 'doughnut',
+      type: 'bar',
       data: {
         labels: labels,
         datasets: [{

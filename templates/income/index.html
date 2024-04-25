@@ -7,7 +7,11 @@
   {% include "partials/_messages.html" %}
 
   <div class="row">
-    <div class="col-md-8"></div>
+    <div class="col-md-8 mt-3" style="display:flex;justify-content:space-between;">
+      <a href="{% url "export-pdf" %}" class="btn btn-primary">Export PDF</a>
+      <a href="{% url "export-excel" %}" class="btn btn-warning">Export XLS</a>
+      <a href="{% url "export-csv" %}" class="btn btn-secondary">Export CSV</a>
+    </div>
 
     <div class="col-md-4 mt-3">
       <div class="form-group">
