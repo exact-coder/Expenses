@@ -19,18 +19,6 @@ const renderChat=(data,labels) =>{
             text: "Expenses per Category",
         }
       },
-      responsive: true,
-      interaction: {
-        intersect: true,
-      },
-      scales: {
-        x: {
-          stacked: true,
-        },
-        y: {
-          stacked: true
-        }
-      },
     });
 };
 const getChatData=()=> {
