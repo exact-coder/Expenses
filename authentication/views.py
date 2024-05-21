@@ -65,7 +65,7 @@ class LoginView(View):
                 if user.is_active:
                     auth.login(request,user)
                     messages.success(request, 'Welcome '+ user.get_username() + ', you are logged in')
-                    return redirect('expences')
+                    return redirect('stats')
                 messages.error(request, 'Account is not active, please check your email')
                 return render(request, 'authentication/login.html')
             messages.error(request, 'Invalid credentials, try again!!')
